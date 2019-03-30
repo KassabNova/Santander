@@ -1,0 +1,13 @@
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\bin\Debug\netcoreapp2.1\Santander.deps.json
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\bin\Debug\netcoreapp2.1\Santander.runtimeconfig.json
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\bin\Debug\netcoreapp2.1\Santander.runtimeconfig.dev.json
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\bin\Debug\netcoreapp2.1\Santander.dll
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\bin\Debug\netcoreapp2.1\Santander.pdb
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.csproj.CoreCompileInputs.cache
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.RazorAssemblyInfo.cache
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.RazorAssemblyInfo.cs
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.AssemblyInfoInputs.cache
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.AssemblyInfo.cs
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.RazorTargetAssemblyInfo.cache
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.dll
+C:\Users\CKass\Videos\Dev\Santander\Santander\Santander\obj\Debug\netcoreapp2.1\Santander.pdb
