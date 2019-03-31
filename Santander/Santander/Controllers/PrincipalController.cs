@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Santander.Models.Entidades.Respuestas;
 using Santander.Models.Entidades;
-using Santander.Models.BObjects;
+using Santander.Models.Helpers;
 
 namespace Santander.Controllers
 {
@@ -77,17 +77,23 @@ namespace Santander.Controllers
         public RespuestaSucursales Sucursales()
         {
             RespuestaSucursales respuesta = new RespuestaSucursales();
-            Sucursal sucursal1 = new Sucursal();
-            Sucursal sucursal2 = new Sucursal();
+            
             List<Sucursal> sucursales = new List<Sucursal>();
-            sucursal1.IdSucursal = 1;
-            sucursal2.IdSucursal = 2;
-            sucursales.Add(sucursal1);
-            sucursales.Add(sucursal2);
+            sucursales = SantanderHelper.ObtenerSucursales(out respuesta.ResultadoOperacion);
             respuesta.sucursales = sucursales;
-            respuesta.ResultadoOperacion = new ResultadoOperacion();
-            respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
-            respuesta.ResultadoOperacion.Detalle = "TEST";
+            //Sucursal sucursal1 = new Sucursal();
+            //Sucursal sucursal2 = new Sucursal();
+            //List<Sucursal> sucursales = new List<Sucursal>();
+            //sucursal1.IdSucursal = 1;
+            //sucursal2.IdSucursal = 2;
+            //sucursal1.Nombre = "Sucursal1";
+            //sucursal2.Nombre = "Sucursal2";
+            //sucursal1.Tipo = "Banco";
+            //sucursal2.Tipo = "Cajero";
+            //sucursales.Add(sucursal1);
+            //sucursales.Add(sucursal2);
+            //respuesta.sucursales = sucursales;
+            
 
             return respuesta;
         }
