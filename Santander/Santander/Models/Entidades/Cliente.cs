@@ -11,6 +11,8 @@ namespace Santander.Models.Entidades
 
         public int Cuenta { get; set; }
 
+        public String Usuario { get; set; }
+
         public String Password { get; set; }
 
         public String FechaCreacion { get; set; }

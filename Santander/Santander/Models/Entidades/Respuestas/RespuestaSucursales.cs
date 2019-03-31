@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace Santander.Models.Entidades.Respuestas
 {
-    public class RespuestaLogin
+    public class RespuestaSucursales
     {
+        public List<Sucursal> sucursales;
+
         public ResultadoOperacion ResultadoOperacion;
-
-        public Cliente cliente;
-
-        public int saldo;
     }
 }

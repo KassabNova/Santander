@@ -9,7 +9,7 @@ using Santander.Models.Entidades;
 
 namespace Santander.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -30,6 +30,20 @@ namespace Santander.Controllers
             respuesta.ResultadoOperacion.Detalle = "DETALLE";
             return respuesta;
         }
+        [HttpPost]
+        public RespuestaLogin Post([FromBody] Cliente cliente)
+        {
+            RespuestaLogin respuesta = new RespuestaLogin();
+           
+            cliente.UltimaConexion = "HOY";
+            respuesta.cliente = cliente;
+            respuesta.ResultadoOperacion = new ResultadoOperacion();
+            respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+            respuesta.ResultadoOperacion.Detalle = "DETALLE";
+            respuesta.saldo = 42;
+            return respuesta;
+        }
+       
 
         // GET: api/Login/5
         [HttpGet("{id}", Name = "Get")]
@@ -39,10 +53,7 @@ namespace Santander.Controllers
         }
 
         // POST: api/Login
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        
 
         // PUT: api/Login/5
         [HttpPut("{id}")]
