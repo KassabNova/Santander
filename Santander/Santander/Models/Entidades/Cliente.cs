@@ -7,12 +7,16 @@ namespace Santander.Models.Entidades
 {
     public class Cliente
     {
-        public int ID { get; set; }
+        public int usuario { get; set; }
 
-        public int Cuenta { get; set; }
+        public int NumCuenta { get; set; }
 
-        public String Usuario { get; set; }
+        public String Nombres { get; set; }
 
+        public String Paterno { get; set; }
+
+        public String Materno { get; set; }
+        
         public String Password { get; set; }
 
         public String FechaCreacion { get; set; }

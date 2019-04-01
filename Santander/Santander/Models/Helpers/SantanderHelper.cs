@@ -9,10 +9,10 @@ namespace Santander.Models.Helpers
 {
     public class SantanderHelper
     {
-        internal static List<Sucursal> ObtenerSucursales(out ResultadoOperacion resultado)
+        internal static List<Sucursal> ObtenerSucursales(out ResultadoOperacion resultadoOperacion)
         {
             List<Sucursal> sucursales = new List<Sucursal>();
-            resultado = new ResultadoOperacion();
+            resultadoOperacion = new ResultadoOperacion();
             try
             {
                 
@@ -20,21 +20,82 @@ namespace Santander.Models.Helpers
                 if (sucursales != null && sucursales.Count() > 0)
                 {
 
-                    resultado.Tipo = TipoResultado.NO_ERROR;
-                    resultado.Detalle = "Sucursales obtenidas correctamente";
+                    resultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+                    resultadoOperacion.Detalle = "Sucursales obtenidas correctamente";
                 }
                 else
                 {
-                    resultado.Tipo = TipoResultado.NOT_FOUND;
+                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
                 }
             }
             catch(Exception e)
             {
                 sucursales = null;
-                resultado.Tipo = TipoResultado.DATA_ACCESS_ERROR;
-                resultado.Detalle = "Error en el acceso a los datos";
+                resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
+                resultadoOperacion.Detalle = "Error en el acceso a los datos: " + e.Message;
             }
             return sucursales;
+        }
+
+        internal static bool LoginCliente(int idCliente, string password, out ResultadoOperacion resultadoOperacion)
+        {
+            resultadoOperacion = new ResultadoOperacion();
+            bool login = false;
+            try
+            {   
+                if(password != null) login= DASantander.ValidarSesion(idCliente, password);
+                else
+                {
+                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
+                    resultadoOperacion.Detalle = "Error validando sesion";
+                }
+                if (login)
+                {
+                    resultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+                    resultadoOperacion.Detalle = "Login Correcto";
+                }
+                else
+                {
+                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
+                    resultadoOperacion.Detalle = "Error validando sesion";
+                }
+            }
+            catch (Exception e)
+            {
+                login = false;
+                resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
+                resultadoOperacion.Detalle = "Error en el acceso a los datos: " + e.Message;
+            }
+            return login;
+        }
+
+        internal static List<Tarjeta> ObtenerTarjetas(int idCliente, out ResultadoOperacion resultadoOperacion)
+        {
+            List<Tarjeta> tarjetas = new List<Tarjeta>();
+            resultadoOperacion = new ResultadoOperacion();
+            try
+            {
+
+                tarjetas = DASantander.ObtenerTarjetas(idCliente);
+                if (tarjetas != null && tarjetas.Count() > 0)
+                {
+
+                    resultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+                    resultadoOperacion.Detalle = "Tarjetas obtenidas correctamente";
+                }
+                else
+                {
+                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
+                    resultadoOperacion.Detalle = "El cliente no tiene tarjetas";
+                }
+            }
+            catch (Exception e)
+            {
+                tarjetas = null;
+                resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
+                resultadoOperacion.Detalle = "Error en el acceso a los datos: " + e.Message;
+            }
+            return tarjetas;
         }
     }
 }

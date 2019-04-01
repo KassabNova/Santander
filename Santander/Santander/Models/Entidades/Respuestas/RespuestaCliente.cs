@@ -5,10 +5,14 @@ using System.Threading.Tasks;
 
 namespace Santander.Models.Entidades.Respuestas
 {
-    public class RespuestaLogin
+    public class RespuestaCliente
     {
         public ResultadoOperacion ResultadoOperacion;
-        
-        public bool login;
+
+        public Cliente cliente;
+
+        public List<Tarjeta> tarjetas;
+
+        public double saldo;
     }
 }

@@ -26,11 +26,11 @@ namespace Santander.Controllers
             RespuestaLogin respuesta = new RespuestaLogin();
 
             cliente.UltimaConexion = "HOY";
-            respuesta.cliente = cliente;
-            respuesta.ResultadoOperacion = new ResultadoOperacion();
-            respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
-            respuesta.ResultadoOperacion.Detalle = "DETALLE";
-            respuesta.saldo = 42;
+            //respuesta.cliente = cliente;
+            //respuesta.ResultadoOperacion = new ResultadoOperacion();
+            //respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+            //respuesta.ResultadoOperacion.Detalle = "DETALLE";
+            //respuesta.saldo = 42;
             return respuesta;
         }
         [HttpPost]
@@ -38,11 +38,7 @@ namespace Santander.Controllers
         {
             RespuestaLogin respuesta = new RespuestaLogin();
 
-            cliente.UltimaConexion = "HOY";
-            respuesta.cliente = cliente;
-            respuesta.ResultadoOperacion = new ResultadoOperacion();
-            respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
-            respuesta.ResultadoOperacion.Detalle = "TEST";
+            
             
             return respuesta;
         }
@@ -51,11 +47,6 @@ namespace Santander.Controllers
         {
             RespuestaLogin respuesta = new RespuestaLogin();
 
-            cliente.UltimaConexion = "HOY";
-            respuesta.cliente = cliente;
-            respuesta.ResultadoOperacion = new ResultadoOperacion();
-            respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
-            respuesta.ResultadoOperacion.Detalle = "TEST";
 
             return respuesta;
         }
@@ -65,11 +56,7 @@ namespace Santander.Controllers
             RespuestaLogin respuesta = new RespuestaLogin();
 
             cliente.UltimaConexion = "HOY";
-            respuesta.cliente = cliente;
-            respuesta.ResultadoOperacion = new ResultadoOperacion();
-            respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
-            respuesta.ResultadoOperacion.Detalle = "TEST";
-
+            
             return respuesta;
         }
 
@@ -81,20 +68,22 @@ namespace Santander.Controllers
             List<Sucursal> sucursales = new List<Sucursal>();
             sucursales = SantanderHelper.ObtenerSucursales(out respuesta.ResultadoOperacion);
             respuesta.sucursales = sucursales;
-            //Sucursal sucursal1 = new Sucursal();
-            //Sucursal sucursal2 = new Sucursal();
-            //List<Sucursal> sucursales = new List<Sucursal>();
-            //sucursal1.IdSucursal = 1;
-            //sucursal2.IdSucursal = 2;
-            //sucursal1.Nombre = "Sucursal1";
-            //sucursal2.Nombre = "Sucursal2";
-            //sucursal1.Tipo = "Banco";
-            //sucursal2.Tipo = "Cajero";
-            //sucursales.Add(sucursal1);
-            //sucursales.Add(sucursal2);
-            //respuesta.sucursales = sucursales;
-            
-
+           
+            return respuesta;
+        }
+        [HttpPost]
+        public RespuestaCliente Principal(Cliente cliente)
+        {
+            RespuestaCliente respuesta = new RespuestaCliente();
+            double saldo = 0;
+            List<Tarjeta> tarjetas = new List<Tarjeta>();
+            tarjetas = SantanderHelper.ObtenerTarjetas(cliente.usuario, out respuesta.ResultadoOperacion);
+            if (tarjetas != null && tarjetas.Count() > 0)
+            {
+                foreach (Tarjeta tarjeta in tarjetas) saldo += tarjeta.Saldo;
+            }
+            respuesta.tarjetas = tarjetas;
+            respuesta.saldo = saldo;
             return respuesta;
         }
     }
