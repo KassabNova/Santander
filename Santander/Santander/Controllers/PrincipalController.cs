@@ -20,20 +20,6 @@ namespace Santander.Controllers
         {
             return new string[] { "value1", "value2" };
         }
-
-        [HttpPost]
-        public RespuestaLogin Post([FromBody] Cliente cliente)
-        {
-            RespuestaLogin respuesta = new RespuestaLogin();
-
-            cliente.UltimaConexion = "HOY";
-            //respuesta.cliente = cliente;
-            //respuesta.ResultadoOperacion = new ResultadoOperacion();
-            //respuesta.ResultadoOperacion.Tipo = TipoResultado.NO_ERROR;
-            //respuesta.ResultadoOperacion.Detalle = "DETALLE";
-            //respuesta.saldo = 42;
-            return respuesta;
-        }
         
         [HttpPost]
         public RespuestaCredito Creditos([FromBody] Cliente cliente)

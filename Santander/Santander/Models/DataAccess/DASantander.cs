@@ -237,5 +237,49 @@ namespace Santander.Models.DataAccess
 
             return tarjetas;
         }
+
+        internal static bool RegistrarMovimiento(string idTarjetaOrigen, string idTarjetaDestino, double monto, string detalle)
+        {
+            bool respuesta = false;
+            SqlConnection conexion = new SqlConnection(CONEXION);
+
+            string query = "INSERT INTO tblMovimiento( NumTarjeta, Monto, Fecha, IdConcepto, Detalle) VALUES( " +
+                idTarjetaOrigen.ToString() + ",-" + monto.ToString() + ", GETDATE(), 7," + detalle + ")" +
+                "INSERT INTO tblMovimiento(NumTarjeta, Monto, Fecha, IdConcepto, Detalle) VALUES(" +
+               idTarjetaDestino.ToString() + "," + monto.ToString() + ", GETDATE(), 7," + detalle + ")" ;
+            try
+            {
+                using (conexion)
+                {
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+
+                        comando.CommandTimeout = 600;
+                        comando.CommandType = CommandType.Text;
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            if (lector.RecordsAffected == 2) respuesta = true;
+                            else respuesta = false;
+                            conexion.Close();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                respuesta = false;
+            }
+            finally
+            {
+                if (conexion != null && conexion.State != ConnectionState.Closed)
+                {
+                    conexion.Close();
+                }
+            }
+            return respuesta;
+        }
+        
     }
 }

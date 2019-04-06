@@ -151,8 +151,8 @@ namespace Santander.Models.Helpers
                 }
                 else
                 {
-                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
-                    resultadoOperacion.Detalle = "El cliente no tiene tarjetas";
+                    resultadoOperacion.Tipo = TipoResultado.OPERATION_ERROR;
+                    resultadoOperacion.Detalle = "Hubo un error registrando los movimientos";
                 }
             }
             catch (Exception e)
@@ -169,12 +169,13 @@ namespace Santander.Models.Helpers
 
         private static bool RegistrarMovimiento(string idTarjetaOrigen, double monto, String detalle)
         {
-            resultadoOperacion = new ResultadoOperacion();
             return false;
         }
         private static bool RegistrarMovimiento(string idTarjetaOrigen, string idTarjetaDestino, double monto, String detalle)
         {
-            return false;
+            bool respuesta = false;
+            respuesta = DASantander.RegistrarMovimiento(idTarjetaOrigen, idTarjetaDestino, monto, detalle);
+            return respuesta;
         }
 
 
