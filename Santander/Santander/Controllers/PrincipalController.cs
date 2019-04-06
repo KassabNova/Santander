@@ -51,12 +51,23 @@ namespace Santander.Controllers
             return respuesta;
         }
         [HttpPost]
-        public RespuestaLogin Creditos([FromBody] Cliente cliente)
+        public RespuestaCredito Creditos([FromBody] Cliente cliente)
         {
-            RespuestaLogin respuesta = new RespuestaLogin();
+            RespuestaCredito respuesta = new RespuestaCredito();
+            List<Credito> creditos = new List<Credito>();
 
-            cliente.UltimaConexion = "HOY";
+            if (cliente == null || cliente.usuario == 0)
+            {
+                respuesta.ResultadoOperacion.Tipo = TipoResultado.INCOMPLETE;
+                respuesta.ResultadoOperacion.Detalle = "Solicitud Incompleta";
+            }
+            else
+            {
+                creditos = SantanderHelper.ObtenerCreditos(cliente.usuario,out respuesta.ResultadoOperacion);
+                respuesta.credito = creditos;
+            }
             
+
             return respuesta;
         }
 

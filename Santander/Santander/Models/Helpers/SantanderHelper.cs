@@ -69,6 +69,35 @@ namespace Santander.Models.Helpers
             return login;
         }
 
+        internal static List<Credito> ObtenerCreditos(int idCliente, out ResultadoOperacion resultadoOperacion)
+        {
+            List<Credito> creditos = new List<Credito>();
+            resultadoOperacion = new ResultadoOperacion();
+            try
+            {
+
+                creditos = DASantander.ObtenerCreditos(idCliente);
+                if (creditos != null && creditos.Count() > 0)
+                {
+
+                    resultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+                    resultadoOperacion.Detalle = "Creditos obtenidas a la perfección!";
+                }
+                else
+                {
+                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
+                    resultadoOperacion.Detalle = "El cliente no tiene créditos";
+                }
+            }
+            catch (Exception e)
+            {
+                creditos = null;
+                resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
+                resultadoOperacion.Detalle = "Error en el acceso a los datos: " + e.Message;
+            }
+            return creditos;
+        }
+
         internal static List<Tarjeta> ObtenerTarjetas(int idCliente, out ResultadoOperacion resultadoOperacion)
         {
             List<Tarjeta> tarjetas = new List<Tarjeta>();

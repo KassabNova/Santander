@@ -23,6 +23,6 @@ namespace Santander.Models.Entidades
         DATA_ACCESS_ERROR,
         NOT_FOUND,
         OPERATION_ERROR,
-
+        INCOMPLETE
     }
 }

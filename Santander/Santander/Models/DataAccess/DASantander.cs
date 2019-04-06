@@ -10,8 +10,8 @@ namespace Santander.Models.DataAccess
 {
     public class DASantander
     {
-        private static string CONEXION = "Data Source = localhost; Initial Catalog = Santander; Integrated Security = SSPI";
-
+        private static string CONEXIONDEV = "Data Source = localhost; Initial Catalog = Santander; Integrated Security = SSPI";
+        private static string CONEXION = "Data Source = localhost; Initial Catalog = Santander;  Persist Security Info=True; User ID = Kebab; Password=kassab123;Pooling=False";
      
         internal static List<Sucursal> ObtenerSucursales()
         {
@@ -115,6 +115,69 @@ namespace Santander.Models.DataAccess
             }
 
             return login;
+        }
+
+        internal static List<Credito> ObtenerCreditos(int idCliente)
+        {
+            List<Credito> creditos = new List<Credito>();
+
+            SqlConnection conexion = new SqlConnection(CONEXION);
+
+            string query = " select Cr.IdCredito, Cr.Saldo, Cr.Interes, Cr.Tipo, Cr.PlazoMeses, Cr.FechaCorte, Cr.FechaPago, Cr.FechaPlazo from tblCredito Cr" +
+                           " join tblCliente Cl on Cl.NumCuenta = Cr.NumCuenta" +
+                           " where Cl.IdCliente = " + idCliente.ToString();
+
+            try
+            {
+                using (conexion)
+                {
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+
+                        comando.CommandTimeout = 600;
+                        comando.CommandType = CommandType.Text;
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            if (lector.HasRows)
+                            {
+                                while (lector.Read())
+                                {
+                                    creditos.Add(new Credito()
+                                    {
+
+                                        IdCredito = Int32.Parse(lector["IdCredito"].ToString()),
+                                        Saldo = Double.Parse(lector["Saldo"].ToString()),
+                                        Interes = Double.Parse(lector["Interes"].ToString()),
+                                        Tipo = lector["Tipo"].ToString(),
+                                        PlazoMeses = Int32.Parse(lector["PlazoMeses"].ToString()),
+                                        FechaCorte = DateTime.Parse(lector["FechaCorte"].ToString()),
+                                        FechaPago = DateTime.Parse(lector["FechaPago"].ToString()),
+                                        FechaPlazo = DateTime.Parse(lector["FechaPlazo"].ToString())
+
+                                    });
+
+                                }
+                            }
+                            conexion.Close();
+                        }
+                    }
+                }
+
+            }
+            catch(Exception e)
+            {
+                creditos = null;
+            }
+            finally
+            {
+                if (conexion != null && conexion.State != ConnectionState.Closed)
+                {
+                    conexion.Close();
+                }
+            }
+
+            return creditos;
         }
 
         internal static List<Tarjeta> ObtenerTarjetas(int idCliente)
