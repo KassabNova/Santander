@@ -20,6 +20,7 @@ namespace Santander.Controllers
         {
             return new string[] { "value1", "value2" };
         }
+
         [HttpPost]
         public RespuestaLogin Post([FromBody] Cliente cliente)
         {
@@ -33,23 +34,7 @@ namespace Santander.Controllers
             //respuesta.saldo = 42;
             return respuesta;
         }
-        [HttpPost]
-        public RespuestaLogin Consultas([FromBody] Cliente cliente)
-        {
-            RespuestaLogin respuesta = new RespuestaLogin();
-
-            
-            
-            return respuesta;
-        }
-        [HttpPost]
-        public RespuestaLogin Pagos([FromBody] Cliente cliente)
-        {
-            RespuestaLogin respuesta = new RespuestaLogin();
-
-
-            return respuesta;
-        }
+        
         [HttpPost]
         public RespuestaCredito Creditos([FromBody] Cliente cliente)
         {
@@ -82,6 +67,7 @@ namespace Santander.Controllers
            
             return respuesta;
         }
+
         [HttpPost]
         public RespuestaCliente Principal(Cliente cliente)
         {

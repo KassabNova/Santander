@@ -15,7 +15,7 @@ namespace Santander.Models.Helpers
             resultadoOperacion = new ResultadoOperacion();
             try
             {
-                
+
                 sucursales = DASantander.ObtenerSucursales();
                 if (sucursales != null && sucursales.Count() > 0)
                 {
@@ -28,7 +28,7 @@ namespace Santander.Models.Helpers
                     resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 sucursales = null;
                 resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
@@ -42,8 +42,8 @@ namespace Santander.Models.Helpers
             resultadoOperacion = new ResultadoOperacion();
             bool login = false;
             try
-            {   
-                if(password != null) login= DASantander.ValidarSesion(idCliente, password);
+            {
+                if (password != null) login = DASantander.ValidarSesion(idCliente, password);
                 else
                 {
                     resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
@@ -126,5 +126,57 @@ namespace Santander.Models.Helpers
             }
             return tarjetas;
         }
+
+        internal static List<Movimiento> ConsultarMovimiento(int idCliente, int idTarjeta, out ResultadoOperacion resultadoOperacion)
+        {
+            List<Movimiento> movimientos = new List<Movimiento>();
+            resultadoOperacion = new ResultadoOperacion();
+
+            return movimientos;
+        }
+
+        internal static void TransferenciaInterbancaria(string idTarjetaOrigen, string idTarjetaDestino, double monto, String detalle, out ResultadoOperacion resultadoOperacion)
+        {
+            resultadoOperacion = new ResultadoOperacion();
+            bool registrada = false;
+            try
+            {
+
+                registrada = RegistrarMovimiento( idTarjetaOrigen, idTarjetaDestino, monto, detalle);
+                if (registrada)
+                {
+
+                    resultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+                    resultadoOperacion.Detalle = "Transferencia exitosa!";
+                }
+                else
+                {
+                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
+                    resultadoOperacion.Detalle = "El cliente no tiene tarjetas";
+                }
+            }
+            catch (Exception e)
+            {
+                resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
+                resultadoOperacion.Detalle = "Error en el acceso a los datos: " + e.Message;
+            }
+        }
+
+        internal static void TransferenciaTerceros(string idTarjetaOrigen, double monto, String detalle, out ResultadoOperacion resultadoOperacion)
+        {
+            resultadoOperacion = new ResultadoOperacion();
+        }
+
+        private static bool RegistrarMovimiento(string idTarjetaOrigen, double monto, String detalle)
+        {
+            resultadoOperacion = new ResultadoOperacion();
+            return false;
+        }
+        private static bool RegistrarMovimiento(string idTarjetaOrigen, string idTarjetaDestino, double monto, String detalle)
+        {
+            return false;
+        }
+
+
     }
 }
