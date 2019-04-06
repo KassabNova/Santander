@@ -9,5 +9,7 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transferencias_detail);
+
+        //Git
     }
 }
