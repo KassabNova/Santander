@@ -9,46 +9,40 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-public class TransferenciasDetailActivity extends AppCompatActivity {
+public class ComprasDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transferencias_detail);
+        setContentView(R.layout.activity_compras_detail);
 
         final String numTarjeta, tipo, limiteCredito, usuario;
         final String opcion;
         final int numCuenta;
         final double saldo;
         final boolean pagosTerceros;
-        TextView lblCuentaOrigen, lblSaldoTransferencia, lblTituloTransferencia, lblCredito;
-        final EditText txtNumeroTarjeta, txtCantidadTransferencia, txtMotivoTransferencia;
-        Button btnTransferencia;
+        final TextView lblCuentaOrigen, lblSaldoTransferencia, lblTituloTransferencia, lblCredito, txtNumero;
+        final EditText txtCantidadTransferencia;
+        Button btnPago;
 
 
-        lblTituloTransferencia = findViewById(R.id.lblTituloTransferencias);
-        lblCuentaOrigen = (TextView)findViewById(R.id.lblCuentaOrigen);
-        lblSaldoTransferencia = (TextView)findViewById(R.id.lblSaldoTransferencias);
-        lblCredito = findViewById(R.id.lblCredito);
-        txtNumeroTarjeta = (EditText) findViewById(R.id.txtNumeroTarjeta);
-        txtCantidadTransferencia = (EditText) findViewById(R.id.txtCantidadTransferencia);
-        txtMotivoTransferencia = findViewById(R.id.txtMotivoTransferencia);
-        btnTransferencia = (Button) findViewById(R.id.btnTransferencia);
+        lblTituloTransferencia = findViewById(R.id.lblTituloPagos);
+        lblCuentaOrigen = (TextView)findViewById(R.id.lblCuentaOrigenPagos);
+        lblSaldoTransferencia = (TextView)findViewById(R.id.lblSaldoPagos);
+        lblCredito = findViewById(R.id.lblCreditoPagos);
+        txtCantidadTransferencia = (EditText) findViewById(R.id.txtCantidadPagos);
+        txtNumero = findViewById(R.id.txtNumero);
+        btnPago = (Button) findViewById(R.id.btnPagos);
 
         final Intent intent = getIntent();
         opcion = intent.getStringExtra("CASO");
@@ -77,32 +71,26 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
             lblCredito.setVisibility(View.GONE);
         }
 
-        if(opcion.equals("Otros bancos")){
-            pagosTerceros = true;
-        }
-        else{
-            pagosTerceros = false;
-        }
+        pagosTerceros = true;
 
-        btnTransferencia.setOnClickListener(new View.OnClickListener() {
+        btnPago.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builderAlert;
                 final AlertDialog Alert;
-                String numerotarjeta = txtNumeroTarjeta.getText().toString();
                 String cantidadTransferencia = txtCantidadTransferencia.getText().toString();
-                String motivoTransferencia = txtMotivoTransferencia.getText().toString();
+                String numero = txtNumero.getText().toString();
                 double saldoDisponible = 0;
 
                 if(tipo.equals("Credito")){
-                     saldoDisponible = Integer.parseInt(limiteCredito)+saldo;
+                    saldoDisponible = Integer.parseInt(limiteCredito)+saldo;
                 }
                 else{
                     saldoDisponible = saldo;
                 }
 
-                if(numerotarjeta.length() == 0 || cantidadTransferencia.length() == 0 || motivoTransferencia.length() == 0){
-                    builderAlert = new AlertDialog.Builder(TransferenciasDetailActivity.this);
+                if(cantidadTransferencia.length() == 0 || numero.length() == 0){
+                    builderAlert = new AlertDialog.Builder(ComprasDetailActivity.this);
                     builderAlert.setMessage("Verifique que los campos esten completos");
                     builderAlert.setCancelable(true);
                     builderAlert.setPositiveButton(
@@ -117,7 +105,7 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
                     return;
                 }
                 else if(saldoDisponible < Integer.parseInt(cantidadTransferencia)){
-                    builderAlert = new AlertDialog.Builder(TransferenciasDetailActivity.this);
+                    builderAlert = new AlertDialog.Builder(ComprasDetailActivity.this);
                     builderAlert.setMessage("Saldo insuficiente");
                     builderAlert.setCancelable(true);
                     builderAlert.setPositiveButton(
@@ -133,7 +121,7 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
                 }
 
                 else{
-                    SolicitudTransferencia solicitudTransferencia = new SolicitudTransferencia(numTarjeta, numerotarjeta, Double.parseDouble(cantidadTransferencia), pagosTerceros, motivoTransferencia);
+                    SolicitudTransferencia solicitudTransferencia = new SolicitudTransferencia(numTarjeta, "0", Double.parseDouble(cantidadTransferencia), pagosTerceros, opcion);
 
                     Gson gson;
 
@@ -156,7 +144,7 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
                             resultadoOperacion rsp = gson.fromJson(jsonObject.getJSONObject("resultadoOperacion").toString(), resultadoOperacion.class);
 
                             if(rsp.getTipo() == 0){
-                                builderAlert = new AlertDialog.Builder(TransferenciasDetailActivity.this);
+                                builderAlert = new AlertDialog.Builder(ComprasDetailActivity.this);
                                 builderAlert.setMessage("Transaccion completada");
                                 builderAlert.setCancelable(true);
                                 builderAlert.setPositiveButton(
@@ -164,7 +152,7 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 dialog.cancel();
-                                                Intent intentBase = new Intent(TransferenciasDetailActivity.this, TarjetasActivity.class);
+                                                Intent intentBase = new Intent(ComprasDetailActivity.this, TarjetasActivity.class);
                                                 intentBase.putExtra("USER", usuario);
                                                 startActivity(intentBase);
                                             }
@@ -174,7 +162,7 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
                                 return;
                             }
                             else{
-                                builderAlert = new AlertDialog.Builder(TransferenciasDetailActivity.this);
+                                builderAlert = new AlertDialog.Builder(ComprasDetailActivity.this);
                                 builderAlert.setMessage(rsp.getDetalle());
                                 builderAlert.setCancelable(true);
                                 builderAlert.setPositiveButton(
@@ -197,6 +185,5 @@ public class TransferenciasDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }

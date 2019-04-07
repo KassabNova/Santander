@@ -42,7 +42,7 @@ public class TarjetasActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         user = intent.getStringExtra("USER");
-        password = intent.getStringExtra("PASSWORD");
+        //password = intent.getStringExtra("PASSWORD");
 
         Gson gson;
 
@@ -53,13 +53,12 @@ public class TarjetasActivity extends AppCompatActivity {
         JSONObject jsonObject = null;
 
         String post = "{\n" +
-                "\t\t\"usuario\": \""+user+"\""+",\n"+
-                "\t\t\"password\": \""+password+"\""+"\n"+
+                "\t\t\"usuario\": \""+user+"\""+"\n"+
                 "}";
 
         try{
             try{
-                jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://192.168.15.150:50000/api/principal/principal",post).get();
+                jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:50000/api/principal/principal",post).get();
             }
             catch (Exception e){ }
             if(jsonString != null || jsonString == ""){
@@ -74,7 +73,6 @@ public class TarjetasActivity extends AppCompatActivity {
                     tarjetasListview.setAdapter(cardsAdapter);
 
                     //final ArrayAdapter<Tarjetas> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tarjetas);
-
 
                 }
                 else{

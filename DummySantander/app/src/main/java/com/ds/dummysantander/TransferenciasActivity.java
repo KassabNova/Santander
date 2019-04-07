@@ -24,6 +24,18 @@ public class TransferenciasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transferencias);
 
+        final String numTarjeta, tipo, limiteCredito, usuario;
+        final int numCuenta;
+        final double saldo;
+
+        Intent intent = getIntent();
+        numTarjeta = intent.getStringExtra("numTarjeta");
+        tipo = intent.getStringExtra("Tipo");
+        limiteCredito = intent.getStringExtra("limiteCredito");
+        numCuenta = intent.getIntExtra("numCuenta", 0);
+        saldo = intent.getDoubleExtra("saldo", 0);
+        usuario = intent.getStringExtra("usuario");
+
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
@@ -33,9 +45,7 @@ public class TransferenciasActivity extends AppCompatActivity {
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -43,9 +53,6 @@ public class TransferenciasActivity extends AppCompatActivity {
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -54,24 +61,40 @@ public class TransferenciasActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        expandableListTitle.get(groupPosition)
-                                + " -> "
-                                + expandableListDetail.get(
-                                expandableListTitle.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
                 String opcion = expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition);
                 switch(expandableListTitle.get(groupPosition)){
                     case "Transferencias":
                          Intent intent = new Intent(TransferenciasActivity.this, TransferenciasDetailActivity.class);
                          intent.putExtra("CASO", opcion);
+                         intent.putExtra("numTarjeta", numTarjeta);
+                         intent.putExtra("Tipo", tipo);
+                         intent.putExtra("limiteCredito", limiteCredito);
+                         intent.putExtra("numCuenta", numCuenta);
+                         intent.putExtra("saldo", saldo);
+                         intent.putExtra("usuario", usuario);
                          startActivityForResult(intent, 0);
                         break;
                     case "Compras":
+                        Intent intentCompras = new Intent(TransferenciasActivity.this, ComprasDetailActivity.class);
+                        intentCompras.putExtra("CASO", opcion);
+                        intentCompras.putExtra("numTarjeta", numTarjeta);
+                        intentCompras.putExtra("Tipo", tipo);
+                        intentCompras.putExtra("limiteCredito", limiteCredito);
+                        intentCompras.putExtra("numCuenta", numCuenta);
+                        intentCompras.putExtra("saldo", saldo);
+                        intentCompras.putExtra("usuario", usuario);
+                        startActivityForResult(intentCompras, 0);
                         break;
                     case "Realizar pago":
+                        Intent intentPago = new Intent(TransferenciasActivity.this, PagosDetailActivity.class);
+                        intentPago.putExtra("CASO", opcion);
+                        intentPago.putExtra("numTarjeta", numTarjeta);
+                        intentPago.putExtra("Tipo", tipo);
+                        intentPago.putExtra("limiteCredito", limiteCredito);
+                        intentPago.putExtra("numCuenta", numCuenta);
+                        intentPago.putExtra("saldo", saldo);
+                        intentPago.putExtra("usuario", usuario);
+                        startActivityForResult(intentPago, 0);
                         break;
                     default:
                         break;

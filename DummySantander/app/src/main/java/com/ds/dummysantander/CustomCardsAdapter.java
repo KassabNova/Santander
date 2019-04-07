@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 class CustomCardsAdapter implements ListAdapter {
@@ -67,6 +69,7 @@ class CustomCardsAdapter implements ListAdapter {
                     intent.putExtra("saldo", tarjeta.getSaldo());
                     intent.putExtra("tipo", tarjeta.getTipo());
                     intent.putExtra("limiteCredito", tarjeta.getLimiteCredito());
+                    intent.putExtra("usuario", tarjeta.getUsuario());
 
                    context.startActivity(intent);
                 }
@@ -75,9 +78,13 @@ class CustomCardsAdapter implements ListAdapter {
             TextView numero = convertView.findViewById(R.id.TxtOperacion);
             TextView saldo = convertView.findViewById(R.id.TxtSaldo);
 
+            NumberFormat formatter = new DecimalFormat("#,###.##");
+            String saldoCurrency = formatter.format(tarjeta.getSaldo());
+            String saldoString = "$"+saldoCurrency;
+
             tipo.setText(tarjeta.getTipo());
-            numero.setText(Integer.toString(tarjeta.getNumCuenta()));
-            saldo.setText(Double.toString(tarjeta.getSaldo()));
+            numero.setText(tarjeta.getNumTarjeta());
+            saldo.setText(saldoString);
         }
         return convertView;
     }

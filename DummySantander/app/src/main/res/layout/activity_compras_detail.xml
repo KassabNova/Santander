@@ -4,10 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransferenciasDetailActivity">
+    tools:context=".ComprasDetailActivity">
 
     <TextView
-        android:id="@+id/lblTituloTransferencias"
+        android:id="@+id/lblNumero"
+        android:layout_width="85dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="Numero:"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+    <TextView
+        android:id="@+id/lblTituloPagos"
         android:layout_width="264dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
@@ -32,7 +46,7 @@
         app:layout_constraintGuide_begin="95dp" />
 
     <TextView
-        android:id="@+id/lblCuentaOrigen"
+        android:id="@+id/lblCuentaOrigenPagos"
         android:layout_width="200dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
@@ -47,19 +61,23 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <TextView
-        android:id="@+id/lblSaldoTransferencias"
+        android:id="@+id/lblSaldoPagos"
         android:layout_width="118dp"
         android:layout_height="27dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="$2,323.31"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/lblCreditoPagos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblCuentaOrigen" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
@@ -67,36 +85,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="40dp" />
-
-    <TextView
-        android:id="@+id/lblNumeroTarjeta"
-        android:layout_width="161dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="Numero de tarjeta:"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-    <EditText
-        android:id="@+id/txtNumeroTarjeta"
-        android:layout_width="118dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintStart_toEndOf="@+id/lblNumeroTarjeta"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.642" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -110,17 +98,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="261dp" />
+        app:layout_constraintGuide_begin="220dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="302dp" />
+        app:layout_constraintGuide_begin="274dp" />
 
     <TextView
-        android:id="@+id/lblCantidadTransferencia"
+        android:id="@+id/lblCantidadPagos"
         android:layout_width="85dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
@@ -134,8 +122,8 @@
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <EditText
-        android:id="@+id/txtCantidadTransferencia"
-        android:layout_width="192dp"
+        android:id="@+id/txtCantidadPagos"
+        android:layout_width="198dp"
         android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -145,44 +133,30 @@
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintStart_toEndOf="@+id/lblCantidadTransferencia"
+        app:layout_constraintStart_toEndOf="@+id/lblCantidadPagos"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <EditText
+        android:id="@+id/txtNumero"
+        android:layout_width="198dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toStartOf="@+id/guideline8"
+        app:layout_constraintStart_toEndOf="@+id/lblCantidadPagos"
+        app:layout_constraintTop_toBottomOf="@+id/txtCantidadPagos" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="376dp" />
-
-    <TextView
-        android:id="@+id/lblMotivoTransferencia"
-        android:layout_width="77dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="Motivo:"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" />
-
-    <EditText
-        android:id="@+id/txtMotivoTransferencia"
-        android:layout_width="195dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintStart_toEndOf="@+id/lblMotivoTransferencia"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+        app:layout_constraintGuide_begin="335dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
@@ -192,31 +166,28 @@
         app:layout_constraintGuide_begin="369dp" />
 
     <Button
-        android:id="@+id/btnTransferencia"
+        android:id="@+id/btnPagos"
         android:layout_width="323dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Transferir"
+        android:text="Comprar"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <TextView
-        android:id="@+id/lblCredito"
+        android:id="@+id/lblCreditoPagos"
         android:layout_width="156dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Credito: $20,000.00"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/lblSaldoTransferencias"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/guideline3" />
 
 </android.support.constraint.ConstraintLayout>

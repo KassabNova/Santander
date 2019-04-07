@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity{
             try{
                 try{
                     //189.209.218.117
-                    jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://192.168.15.150:50000/api/login/",post).get();
+                    jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:50000/api/login/",post).get();
                 }
                 catch (Exception e){ }
                 if(jsonString != null || jsonString == ""){
@@ -212,7 +212,6 @@ public class LoginActivity extends AppCompatActivity{
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-
 
         }
 
