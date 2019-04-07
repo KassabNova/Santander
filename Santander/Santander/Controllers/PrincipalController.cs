@@ -63,10 +63,15 @@ namespace Santander.Controllers
             tarjetas = SantanderHelper.ObtenerTarjetas(cliente.usuario, out respuesta.ResultadoOperacion);
             if (tarjetas != null && tarjetas.Count() > 0)
             {
-                foreach (Tarjeta tarjeta in tarjetas) saldo += tarjeta.Saldo;
+                foreach (Tarjeta tarjeta in tarjetas)
+                {
+                    saldo += tarjeta.Saldo;
+                    tarjeta.usuario = cliente.usuario;
+                }
             }
             respuesta.tarjetas = tarjetas;
             respuesta.saldo = saldo;
+            respuesta.cliente = cliente;
             return respuesta;
         }
     }

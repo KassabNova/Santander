@@ -7,9 +7,9 @@ namespace Santander.Models.Entidades.Solicitudes
 {
     public class SolicitudTransferencia
     {
-        public Tarjeta TarjetaOrigen;
+        public String TarjetaOrigen;
 
-        public Tarjeta TarjetaDestino;
+        public String TarjetaDestino;
 
         public double Monto;
 
