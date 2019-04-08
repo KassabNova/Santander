@@ -136,7 +136,7 @@ public class ComprasDetailActivity extends AppCompatActivity {
 
                     try{
                         try{
-                            jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:50000/api/Movimiento/Transferencia",post).get();
+                            jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:60000/api/Movimiento/Transferencia",post).get();
                         }
                         catch (Exception e){ }
                         if(jsonString != null || jsonString == ""){

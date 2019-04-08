@@ -12,7 +12,7 @@ import java.text.NumberFormat;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private Button btnsucursal, btnTransferencias;
+    private Button btnsucursal, btnTransferencias, btnConsulta;
     private TextView lblSaldoTarjeta;
     //private  Tarjetas tarjeta;
     @Override
@@ -64,6 +64,17 @@ public class BaseActivity extends AppCompatActivity {
                 startActivityForResult(intentTransferencias, 0);
             }
         });
+
+        btnConsulta = (Button)findViewById(R.id.BtnConsultas);
+        btnConsulta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentConsulta = new Intent(BaseActivity.this, ConsultaActivity.class);
+                intentConsulta.putExtra("numTarjeta", numTarjeta);
+                startActivityForResult(intentConsulta, 0);
+            }
+        });
+
     }
 
 

@@ -6,9 +6,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -19,30 +16,23 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class TarjetasActivity extends AppCompatActivity {
+public class ConsultaActivity extends AppCompatActivity {
 
-    String jsonString = "";
-    String user, password;
+    String numTarjeta;
     AlertDialog.Builder builderAlert;
     AlertDialog Alert;
+    String jsonString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tarjetas);
+        setContentView(R.layout.activity_consulta);
 
-        final ArrayList<Tarjetas> tarjetas;
-        //Tarjetas tarjetas1 = new Tarjetas("123", 456, 1985, "Debito", "2000");
-        //Tarjetas tarjetas2 = new Tarjetas("000", 987, 1000, "Credito", "5000");
-
-        //tarjetas.add(tarjetas1);
-        //tarjetas.add(tarjetas2);
+        final ArrayList<Consulta> consultas;
 
         Intent intent = getIntent();
-        user = intent.getStringExtra("USER");
-        //password = intent.getStringExtra("PASSWORD");
+        numTarjeta = intent.getStringExtra("numTarjeta");
 
         Gson gson;
 
@@ -53,38 +43,38 @@ public class TarjetasActivity extends AppCompatActivity {
         JSONObject jsonObject = null;
 
         String post = "{\n" +
-                "\t\t\"usuario\": \""+user+"\""+"\n"+
+                "\t\t\"NumTarjeta\": \""+numTarjeta+"\""+"\n"+
                 "}";
 
         try{
             try{
-                jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:60000/api/principal/principal",post).get();
+                jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:60000/api/movimiento/movimientos",post).get();
             }
             catch (Exception e){ }
             if(jsonString != null || jsonString == ""){
                 jsonObject = new JSONObject(jsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray("tarjetas");
+                JSONArray jsonArray = jsonObject.getJSONArray("movimientos");
 
                 if(jsonArray.length()>0){
-                    tarjetas = new ArrayList<>(Arrays.asList(gson.fromJson(jsonArray.toString(), Tarjetas[].class)));
-                    ListView tarjetasListview = (ListView) findViewById(R.id.listView1);
+                    consultas = new ArrayList<>(Arrays.asList(gson.fromJson(jsonArray.toString(), Consulta[].class)));
+                    ListView consultaView = (ListView) findViewById(R.id.LstConsultas);
 
-                    CustomCardsAdapter cardsAdapter = new CustomCardsAdapter(this, tarjetas);
-                    tarjetasListview.setAdapter(cardsAdapter);
+                    ConsultaAdapter cardsAdapter = new ConsultaAdapter(this, consultas);
+                    consultaView.setAdapter(cardsAdapter);
 
-                    //final ArrayAdapter<Tarjetas> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tarjetas);
+                    //final ArrayAdapter<Tarjetass> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tarjetas);
 
                 }
                 else{
-                    builderAlert = new AlertDialog.Builder(TarjetasActivity.this);
-                    builderAlert.setMessage("Usted no tiene tarjetas registradas");
+                    builderAlert = new AlertDialog.Builder(ConsultaActivity.this);
+                    builderAlert.setMessage("No hay movimientos registrados en la tarjeta");
                     builderAlert.setCancelable(false);
                     builderAlert.setPositiveButton(
                             R.string.message_ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
-                                    Intent intent = new Intent(TarjetasActivity.this, LoginActivity.class);
+                                    Intent intent = new Intent(ConsultaActivity.this, LoginActivity.class);
                                     startActivityForResult(intent, 0);
                                 }
                             });
@@ -103,6 +93,5 @@ public class TarjetasActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }

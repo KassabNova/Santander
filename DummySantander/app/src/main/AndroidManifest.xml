@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ComprasDetailActivity"></activity>
+        <activity android:name=".ConsultaActivity"></activity>
+        <activity android:name=".ComprasDetailActivity" />
         <activity android:name=".PagosDetailActivity" />
         <activity android:name=".TransferenciasDetailActivity" />
         <activity android:name=".TarjetasActivity" />

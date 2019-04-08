@@ -102,7 +102,7 @@ public class SucursalActivity extends FragmentActivity implements OnMapReadyCall
 
             try{
                 try{
-                    jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:50000/api/principal/sucursales","").get();
+                    jsonString = new MyHttpRequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"http://189.209.218.117:60000/api/principal/sucursales","").get();
                     jsonObject = new JSONObject(jsonString);
                     JSONArray jsonArray = jsonObject.getJSONArray("sucursales");
 

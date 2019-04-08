@@ -47,16 +47,6 @@
             android:text="Transferencias" />
 
         <Button
-            android:id="@+id/BtnCreditos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/app_button"
-            android:text="Creditos" />
-
-        <Button
             android:id="@+id/BtnSucursales"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,5 +55,16 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/app_button"
             android:text="Sucursales" />
+
+        <Button
+            android:id="@+id/BtnCreditos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/app_button"
+            android:text="Creditos"
+            android:visibility="invisible" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
