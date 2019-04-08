@@ -9,13 +9,13 @@ namespace Santander.Models.Entidades
     {
         public int Id { get; set; }
 
-        public int Monto { get; set; }
+        public double Monto { get; set; }
 
         public String IdTarjeta { get; set; }
 
-        public String Fecha { get; set; }
+        public DateTime Fecha { get; set; }
 
-        public Concepto concepto { get; set; }
+        public Concepto Concepto { get; set; }
 
         public String Detalle { get; set; }
     }

@@ -69,6 +69,35 @@ namespace Santander.Models.Helpers
             return login;
         }
 
+        internal static List<Movimiento> ObtenerMovimientos(string numTarjeta, out ResultadoOperacion resultadoOperacion)
+        {
+            List<Movimiento> movimientos = new List<Movimiento>();
+            resultadoOperacion = new ResultadoOperacion();
+            try
+            {
+
+                movimientos = DASantander.ObtenerMovimientos(numTarjeta);
+                if (movimientos != null && movimientos.Count() > 0)
+                {
+
+                    resultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+                    resultadoOperacion.Detalle = "Movimientos obtenidos a la perfección!";
+                }
+                else
+                {
+                    resultadoOperacion.Tipo = TipoResultado.NOT_FOUND;
+                    resultadoOperacion.Detalle = "El cliente no tiene movimientos";
+                }
+            }
+            catch (Exception e)
+            {
+                movimientos = null;
+                resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
+                resultadoOperacion.Detalle = "Error en el acceso a los datos: " + e.Message;
+            }
+            return movimientos;
+        }
+
         internal static List<Credito> ObtenerCreditos(int idCliente, out ResultadoOperacion resultadoOperacion)
         {
             List<Credito> creditos = new List<Credito>();
@@ -141,8 +170,44 @@ namespace Santander.Models.Helpers
             bool registrada = false;
             try
             {
+                if(idTarjetaDestino == null)
+                {
+                    resultadoOperacion.Tipo = TipoResultado.INCOMPLETE;
+                    resultadoOperacion.Detalle = "Solicitud Incompleta";
+                    
+                }
+                else
+                {
+                    registrada = RegistrarMovimiento(idTarjetaOrigen, idTarjetaDestino, monto, detalle);
+                    if (registrada)
+                    {
 
-                registrada = RegistrarMovimiento( idTarjetaOrigen, idTarjetaDestino, monto, detalle);
+                        resultadoOperacion.Tipo = TipoResultado.NO_ERROR;
+                        resultadoOperacion.Detalle = "Transferencia exitosa!";
+                    }
+                    else
+                    {
+                        resultadoOperacion.Tipo = TipoResultado.OPERATION_ERROR;
+                        resultadoOperacion.Detalle = "Hubo un error registrando los movimientos";
+                    }
+                }
+               
+            }
+            catch (Exception e)
+            {
+                resultadoOperacion.Tipo = TipoResultado.DATA_ACCESS_ERROR;
+                resultadoOperacion.Detalle = "Error en el acceso a los datos: " + e.Message;
+            }
+        }
+
+        internal static void TransferenciaTerceros(string idTarjetaOrigen, double monto, String detalle, out ResultadoOperacion resultadoOperacion)
+        {
+            resultadoOperacion = new ResultadoOperacion();
+            bool registrada = false;
+            try
+            {
+
+                registrada = RegistrarMovimiento(idTarjetaOrigen, monto, detalle);
                 if (registrada)
                 {
 
@@ -162,14 +227,11 @@ namespace Santander.Models.Helpers
             }
         }
 
-        internal static void TransferenciaTerceros(string idTarjetaOrigen, double monto, String detalle, out ResultadoOperacion resultadoOperacion)
-        {
-            resultadoOperacion = new ResultadoOperacion();
-        }
-
         private static bool RegistrarMovimiento(string idTarjetaOrigen, double monto, String detalle)
         {
-            return false;
+            bool respuesta = false;
+            respuesta = DASantander.RegistrarMovimiento(idTarjetaOrigen, monto, detalle);
+            return respuesta;
         }
         private static bool RegistrarMovimiento(string idTarjetaOrigen, string idTarjetaDestino, double monto, String detalle)
         {

@@ -17,5 +17,8 @@ namespace Santander.Models.Entidades
         public String Tipo { get; set; }
         
         public String LimiteCredito { get; set; }
+
+        public int usuario { get; set; }
+
     }
 }

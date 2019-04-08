@@ -117,6 +117,63 @@ namespace Santander.Models.DataAccess
             return login;
         }
 
+        internal static List<Movimiento> ObtenerMovimientos(string numTarjeta)
+        {
+            List<Movimiento> movimientos = new List<Movimiento>();
+
+            SqlConnection conexion = new SqlConnection(CONEXION);
+
+            string query = "SELECT * FROM tblMovimiento WHERE NumTarjeta = '" + numTarjeta + "'";
+
+            try
+            {
+                using (conexion)
+                {
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+
+                        comando.CommandTimeout = 600;
+                        comando.CommandType = CommandType.Text;
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            if (lector.HasRows)
+                            {
+                                while (lector.Read())
+                                {
+                                    movimientos.Add(new Movimiento()
+                                    {
+
+                                        Id= Int32.Parse(lector["ID"].ToString()),
+                                        Monto = Double.Parse(lector["Monto"].ToString()),
+                                        Fecha = DateTime.Parse(lector["Fecha"].ToString()),
+                                        Detalle = lector["Detalle"].ToString()
+
+                                    });
+
+                                }
+                            }
+                            conexion.Close();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                movimientos = null;
+            }
+            finally
+            {
+                if (conexion != null && conexion.State != ConnectionState.Closed)
+                {
+                    conexion.Close();
+                }
+            }
+
+            return movimientos;
+        }
+
         internal static List<Credito> ObtenerCreditos(int idCliente)
         {
             List<Credito> creditos = new List<Credito>();
@@ -207,8 +264,8 @@ namespace Santander.Models.DataAccess
                                     tarjetas.Add(new Tarjeta()
                                     {
 
-                                        NumTarjeta = lector["IdCliente"].ToString(),
-                                        NumCuenta = Int32.Parse(lector["NumTarjeta"].ToString()),
+                                        NumTarjeta = lector["NumTarjeta"].ToString(),
+                                        NumCuenta = Int32.Parse(lector["NumCuenta"].ToString()),
                                         Saldo = Double.Parse(lector["Saldo"].ToString()),
                                         Tipo = lector["Tipo"].ToString(),
                                         LimiteCredito = lector["LimiteCredito"].ToString(),
@@ -238,17 +295,18 @@ namespace Santander.Models.DataAccess
             return tarjetas;
         }
 
-        internal static bool RegistrarMovimiento(string idTarjetaOrigen, string idTarjetaDestino, double monto, string detalle)
+        internal static bool RegistrarMovimiento(string idTarjetaOrigen, double monto, string detalle)
         {
             bool respuesta = false;
             SqlConnection conexion = new SqlConnection(CONEXION);
 
-            string query = "INSERT INTO tblMovimiento( NumTarjeta, Monto, Fecha, IdConcepto, Detalle) VALUES( " +
-                idTarjetaOrigen.ToString() + ",-" + monto.ToString() + ", GETDATE(), 7," + detalle + ")" +
-                "INSERT INTO tblMovimiento(NumTarjeta, Monto, Fecha, IdConcepto, Detalle) VALUES(" +
-               idTarjetaDestino.ToString() + "," + monto.ToString() + ", GETDATE(), 7," + detalle + ")" ;
-            try
-            {
+            string query = " INSERT INTO tblMovimiento( NumTarjeta, Monto, Fecha, IdConcepto, Detalle) VALUES( " +
+                idTarjetaOrigen.ToString() + ",-" + monto.ToString() + ", GETDATE(), 1,'" + detalle + "')" +
+                " UPDATE tblTarjeta SET Saldo = (SELECT Saldo from tblTarjeta where NumTarjeta =" + idTarjetaOrigen.ToString() + ")-" +
+                monto.ToString() + " WHERE NumTarjeta=" + idTarjetaOrigen.ToString();
+                //update tblTarjeta set Saldo = (SELECT Saldo from tblTarjeta where NumTarjeta = 6969)-300.1 where NumTarjeta = 6969
+
+            try{
                 using (conexion)
                 {
                     using (SqlCommand comando = new SqlCommand(query, conexion))
@@ -269,6 +327,54 @@ namespace Santander.Models.DataAccess
             }
             catch (Exception e)
             {
+                respuesta = false;
+            }
+            finally
+            {
+                if (conexion != null && conexion.State != ConnectionState.Closed)
+                {
+                    conexion.Close();
+                }
+            }
+            return respuesta;
+        }
+
+        internal static bool RegistrarMovimiento(string idTarjetaOrigen, string idTarjetaDestino, double monto, string detalle)
+        {
+            bool respuesta = false;
+            SqlConnection conexion = new SqlConnection(CONEXION);
+
+            string query = " INSERT INTO tblMovimiento( NumTarjeta, Monto, Fecha, IdConcepto, Detalle) VALUES( " +
+                idTarjetaOrigen + ",-" + monto.ToString() + ", GETDATE(), 7,'" + detalle + "')" +
+                " INSERT INTO tblMovimiento(NumTarjeta, Monto, Fecha, IdConcepto, Detalle) VALUES(" +
+               idTarjetaDestino + "," + monto.ToString() + ", GETDATE(), 7,'" + detalle + "')" +
+               " UPDATE tblTarjeta SET Saldo = (SELECT Saldo from tblTarjeta where NumTarjeta =" + idTarjetaOrigen + ")-" +
+                monto.ToString() + "WHERE NumTarjeta=" + idTarjetaOrigen +
+                " UPDATE tblTarjeta SET Saldo = (SELECT Saldo from tblTarjeta where NumTarjeta =" + idTarjetaDestino + ")+" +
+                monto.ToString() + " WHERE NumTarjeta=" + idTarjetaDestino; 
+            try
+            {
+                using (conexion)
+                {
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+
+                        comando.CommandTimeout = 600;
+                        comando.CommandType = CommandType.Text;
+                        conexion.Open();
+                        using (SqlDataReader lector = comando.ExecuteReader())
+                        {
+                            if (lector.RecordsAffected == 4) respuesta = true;
+                            else respuesta = false;
+                            conexion.Close();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
                 respuesta = false;
             }
             finally
