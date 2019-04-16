@@ -1,12 +1,18 @@
 # Santander
 Final Project in mobile dev class. The requirements we were given are these.
-- Menus 
-       - Login
+
+
+
+
+Menus:
+
+       - Login:
        - Consulting (Tarjeta de crédito y debito)
                 - Transactions by date
                 - Balance
                 - Account Statements
-       -  Transfers
+              
+       -  Transfers:
                 - Our Bank
                 - Other Banks
                 - Credit
@@ -21,6 +27,8 @@ Final Project in mobile dev class. The requirements we were given are these.
                 -  Payroll
                 
 - All transactions can be done within an account.
+
+
 Name | Assignment
 ------------ | -------------
 Carlos Kassab André| Web Service and DB
@@ -30,7 +38,7 @@ Luis Cuevas Garcia | UI Design
 
 You will need Android Studio with API level 27 and Visual Studio 2017+ with ASP .NET 2.2 packages
 
-### Web Service
+## Web Service
 
 `TODO`
 
