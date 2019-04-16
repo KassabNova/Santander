@@ -1,22 +1,22 @@
 # Santander
 Final Project in mobile dev class. The requirements we were given are these.
-- Menus :
+- Menus 
        - Login
-       - Consulting: (Tarjeta de crédito y debito)
+       - Consulting (Tarjeta de crédito y debito)
                 - Transactions by date
                 - Balance
                 - Account Statements
-       -  Transfers:
+       -  Transfers
                 - Our Bank
                 - Other Banks
                 - Credit
-       -  Pay Bills:
+       -  Pay Bills
                 -  SAT (Taxes)
                 -  CFE (Electricity)
                 -  SIAPA (Water)
-       - Purchases:
+       - Purchases
                 - Cellphone Balance
-       - Credits:
+       - Credits
                 -  Mortgage
                 -  Payroll
                 
